@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1, maximum-scale=1">
+    <title>Chorq</title>
+    <meta name="description" content="The hippest new chord sharing site on the block !!">
+    <link rel="kik-icon" href="logo.png">
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="/favicon.ico" type="image/x-icon">
+    <link href='http://fonts.googleapis.com/css?family=Roboto:400,500,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <link rel="stylesheet" type="text/css" href="layout.css">
+    <link rel="stylesheet" type="text/css" href="chords.css">
+    <script src="http://cdn.kik.com/kik/1.0.9/kik.js"></script>
+    <script type="text/javascript" src="zepto.min.js"></script>
+    <script type="text/javascript" src="ui.js"></script>
+</head>
+<body>
+    <div id="home" class="hidden">
+        <form id="bigsearch" onsubmit="return search($('#bigsearchbar').val());">
+            <input id="bigsearchbar" type="text" value="Search for a song..." autocomplete="off" onfocus="bigSearchFocus();" onblur="bigSearchBlur();">
+            <div id="bigsearchstatus">
+                press "enter" to search
+            </div>
+        </form>
+        <div id="welcome">
+            <div class="guest">
+                <em>Welcome, <strong>guest</strong></em> <br />
+                <a href="javascript: showFiles();">log in with kik</a>
+            </div>
+            <div class="user">
+                <em>Welcome, <strong class="username">USER</strong></em> <br />
+                <a href="javscript: showFiles();">view collection</a>
+            </div>
+        </div>
+    </div>
+    <div id="searchbar" class="hidden">
+        <form onsubmit="return search($('#searchinput').val());" id="searchcontainer">
+            <div id="filesbutton" onclick="toggleFiles();">
+                <div id="filesshape1"></div>
+                <div id="filesshape2"></div>
+                <div id="filesshape3"></div>
+            </div>
+            <input id="searchinput" type="text" value="Search for a song..." autocomplete="off" onfocus="searchFocus();" onblur="searchBlur();">
+        </form>
+    </div>
+    <div id="searchresults" class="hidden">
+        <div id="resultcontainer">
+            <div class="searchresult">
+                <h2><a href="javascript:showSheet(1,1);">Wonderwall <em>by Oasis</em></a></h2>
+                rating/source information
+            </div>
+            <div class="searchresult">
+                <h2><a href="javascript: search('');">Good Riddance/Time of Your Life <em>by Green Day</em></a></h2>
+                rating/source information
+            </div>
+            <div class="searchresult">
+                <h2><a href="javascript: search('');">Sandstorm <em>by Darude</em></a></h2>
+                rating/source information
+            </div>
+        </div>
+        <div class="kikbutton hidden">
+            <a class="kik-button kik-color-lg"></a>
+        </div>
+    </div>
+    <div id="files" class="hidden">
+        <div id="folders" onclick="toggleFolders();">
+            <div id="folderslist">
+                <div class="folder active">
+                    <a href="#">Your Stacks</a>
+                </div>
+                <div class="folder">
+                    <a href="#">Received Stacks</a>
+                </div>
+            </div>
+        </div>
+        <div id="contents" onclick="hideFolders();">
+            <div id="contentslist">
+                <div class="searchresult">
+                    <h2><a href="javascript:showSheet(1,1);">Wonderwall <em>by Oasis</em></a></h2>
+                    rating/source information
+                </div>
+                <div class="searchresult">
+                    <h2><a href="javascript: search('');">Good Riddance/Time of Your Life <em>by Green Day</em></a></h2>
+                    rating/source information
+                </div>
+                <div class="searchresult">
+                    <h2><a href="javascript: search('');">Sandstorm <em>by Darude</em></a></h2>
+                    rating/source information
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="stack" class="hidden">
+        <div class="sheet">
+            <div id="sheet1" class="sheetcontainer">
+                <h2 id="sheet1-title"></h2>
+                <div class="lyrics" id="sheet1-lyrics">
+                </div>
+            </div>
+        </div>
+        <div class="kikbutton">
+            <a class="kik-button kik-color-lg"></a>
+        </div>
+        <div class="savebutton" onclick="showFiles();">
+            <div id="saveshape1"></div>
+            <div id="saveshape2"></div>
+            <div id="saveshape3"></div>
+            <div id="saveshape4"></div>
+        </div>
+    </div>
+    <script src="//cdn.kik.com/kik/1.0.18/kik-share.js"></script>
+    <script type="text/javascript">
+        var state = window.location.hash.split("#!/")[1];
+        if(state != null) {
+            states = state.split(":");
+            if(states[0] == "sheet")
+                showSheet(states[1],1);
+            else if(states[0] == "search")
+                search(states[1]);
+            else search("");
+        } else search("");
+    </script>
+</body>
+</html>
