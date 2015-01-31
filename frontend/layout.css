@@ -1,0 +1,482 @@
+.guest {
+    display: block;
+}
+.user {
+    display: none;
+}
+
+/******************
+    HOME PANEL
+******************/
+
+#home {
+    position: absolute;
+    top: 0%;
+    left: 0%;
+    z-index: 0;
+    
+    height: 100%;
+    width: 100%;
+    overflow: auto;
+    background-color: #FFFFFF;
+    transition: left 0.5s ease-in-out;
+}
+
+#home.hidden {
+    left: -200%;
+}
+
+#home #bigsearch {
+    color: #C8CDD2;
+    margin-top: 384px;
+    padding: 48px 96px;
+}
+
+#bigsearchicon {
+    position: absolute;
+    top: 192px;
+    right: 0px;
+    background-color: #000000;
+    height: 48px;
+    width: 48px;
+}
+
+@media (max-height: 960px) {
+    #home #bigsearch {
+        margin-top: 192px;
+    }
+}
+
+@media (max-height: 700px) {
+    #home #bigsearch {
+        margin-top: 96px;
+    }
+}
+
+@media (max-height: 500px) {
+    #home #bigsearch {
+        margin-top: 48px;
+    }
+}
+
+#home #bigsearch #bigsearchbar {
+    height: 48px;
+    max-width: 700px;
+    font-size: 28px;
+    line-height: 48px;
+}
+
+#home #welcome {
+    color: #C8CDD2;
+    padding: 48px 96px;
+}
+
+
+
+/******************
+    SEARCH BAR
+******************/
+
+#searchbar {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    z-index: 500;
+    
+    width: 100%;
+    height: 72px;
+    background-color: #323437;
+    
+    transition: top 0.5s ease-in-out;
+}
+#searchbar.hidden {
+    top: -144px;
+}
+
+#searchbar #searchcontainer {
+    height: 24px;
+    padding: 24px 96px;
+}
+
+#searchbar #filesbutton {
+    position: absolute;
+    top: 24px;
+    : 96px;
+    height: 24px;
+    width: 24px;
+}
+
+#searchbar #filesbutton * {
+    position: absolute;
+    left: 0px;
+    display: block;
+    background-color: #C8CDD2;
+    width: 24px;
+    height: 4px;
+    transition: width 0.5s ease-in-out, top 0.5s ease-in-out, left 0.5s ease-in-out, transform 0.5s ease-in-out;
+}
+#searchbar #filesbutton:hover {
+    cursor: pointer;
+}
+#searchbar #filesbutton:hover * {
+    background-color: #00DCFF;
+}
+#searchbar #filesbutton #filesshape1 {
+    top: 2px;
+}
+#searchbar #filesbutton #filesshape2 {
+    top: 10px;
+}
+#searchbar #filesbutton #filesshape3 {
+    top: 18px;
+}
+#searchbar #filesbutton.active #filesshape1 {
+    top: 10px;
+    left: 4px;
+    width: 20px;
+    transform: rotate(180deg);
+}
+#searchbar #filesbutton.active #filesshape2 {
+    top: 6px;
+    width: 16px;
+    transform: rotate(135deg);
+}
+#searchbar #filesbutton.active #filesshape3 {
+    top: 14px;
+    width: 16px;
+    transform: rotate(-135deg);
+}
+#searchbar #searchinput {
+    margin: 0px;
+    padding: 0px 0px 0px 48px;
+    height: 24px;
+    box-sizing: border-box;
+    background-color: transparent;
+    
+    font-size: 20px;
+    line-height: 24px;
+    border-width: 0px;
+}
+
+#searchbar #searchinput:focus {
+    padding: 0px 0px 0px 48px;
+    color: #FFFFFF;
+    border-width: 0px;
+}
+
+
+
+/******************
+  SEARCH RESULTS
+******************/
+#searchresults {
+    position: absolute;
+    top: 0%;
+    left: 0px;
+    z-index: 200;
+    
+    height: 100%;
+    width: 100%;
+    overflow: auto;
+    background-color: #FFFFFF;
+    transition: top 0.5s ease-in-out;
+}
+#searchresults.hidden {
+    top: 200%;
+}
+
+#searchresults #resultcontainer {
+    padding: 96px 96px 24px 96px;
+}
+.searchresult {
+    padding: 24px 0px 24px 48px;
+}
+.searchresult h2 a:link {
+    color: #323437;
+}
+.searchresult h2 a:visited {
+    color: #323437;
+}
+.searchresult h2 a:hover {
+    color: #32F0FF;
+}
+.searchresult h2 a:active {
+    color: #00DCFF;
+}
+#searchresults .kikbutton.hidden {
+    display: none;
+}
+
+
+/******************
+     OWN FILES
+******************/
+#files {
+    position: absolute;
+    top: 0%;
+    left: 0%;
+    z-index: 400;
+    
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+    background-color: #FFFFFF;
+    transition: left 0.5s ease-in-out;
+}
+#files.hidden {
+    left: -200%;
+}
+#files #folders {
+    position: absolute;
+    top: 0%;
+    left: 0px;
+    height: 100%;
+    width: 360px;
+    overflow: auto;
+    
+    background-color: #323437;
+    color: #FFFFFF;
+    transition: left 0.2s ease-in-out;
+}
+#files #folders #folderslist {
+    padding: 72px 0px 48px 48px;
+}
+.folder {
+    height: 24px;
+    padding: 24px 48px 24px 96px;
+    font-size: 16px;
+    font-weight: bold;
+    font-weight: 700;
+}
+.folder a:link {
+    color: #FFFFFF;
+}
+.folder a:visited {
+    color: #FFFFFF;   
+}
+.folder a:hover {
+    color: #C8CDD2;
+    border-width: 0px;
+}
+.folder a:active {
+    color: #00DCFF;
+    border-width: 0px;
+}
+.folder.active {
+    background-color: #FFFFFF;
+    color: #00DCFF;
+}
+.folder.active a:link {
+    color: #00DCFF;
+}
+.folder.active a:visited {
+    color: #00DCFF;   
+}
+.folder.active a:hover {
+    color: #00DCFF;
+}
+.folder.active a:active {
+    color: #00DCFF;
+}
+#files #contents {
+    padding-left: 360px;
+    height: 100%;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+#files #contents #contentslist {
+    padding: 72px 96px 96px 0px;
+}
+
+/********************************
+    FOLDERS FOLD IN AND OUT
+********************************/
+@media (max-width: 900px) {
+    
+    #files #folders.hidden {
+        left: -336px;
+    }
+    
+    #files #contents {
+        padding-left: 96px;
+    }
+}
+
+/********************
+     FAT STACKS
+********************/
+#stack {
+    position: absolute;
+    top: 0%;
+    right: 0%;
+    z-index: 300;
+    
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+    background-color: #FFFFFF;
+    transition: right 0.5s ease-in-out;
+}
+#stack.hidden {
+    right: -200%;
+}
+
+#stack .sheet {
+    position: absolute;
+    top: 0%;
+    right: 0%;
+    
+    height: 100%;
+    width: 100%;
+    overflow: auto;
+    background-color: #FFFFFF;
+    transition: right 0.5s ease-in-out;
+}
+
+#stack .sheet .sheetcontainer {
+    padding: 120px 96px 96px 144px;
+}
+
+.kikbutton {
+    position: absolute;
+    top: 118px;
+    left: 90px;
+    text-align: center;
+    width: 36px;
+    height: 36px;
+}
+.kikbutton a {
+    border-width: 0px !important;
+}
+
+#stack .savebutton {
+    position: absolute;
+    top: 192px;
+    left: 96px;
+    width: 24px;
+    height: 24px;
+}
+
+#stack .savebutton * {
+    position: absolute;
+    border: 2px solid #D7DCE1;
+    border-radius: 4px;
+}
+
+#stack .savebutton #saveshape1 {
+    top: 0px;
+    left: 10px;
+    height: 12px;
+    width: 0px;
+}
+#stack .savebutton #saveshape2 {
+    top: 10px;
+    left: 3px;
+    height: 0px;
+    width: 8px;
+    transform: rotate(45deg);
+}
+#stack .savebutton #saveshape3 {
+    top: 10px;
+    right: 3px;
+    height: 0px;
+    width: 8px;
+    transform: rotate(-45deg);
+}
+#stack .savebutton #saveshape4 {
+    top: 22px;
+    left: 2px;
+    height: 0px;
+    width: 18px;
+    border-width: 1px;
+}
+
+#stack .savebutton:hover {
+    cursor: pointer;
+}
+#stack .savebutton:hover * {
+    border-color: #00DCFF;
+}
+
+/**************************************
+    REDUCE ALL VERTICAL PADDINGS
+**************************************/
+@media (max-height: 600px) {
+    #searchbar {
+        height: 48px;
+    }
+    
+    #searchbar #searchcontainer {
+        padding-top: 12px;
+        padding-bottom: 12px;
+    }
+    #searchbar #filesbutton {
+        top: 12px;
+    }
+    #searchresults #resultcontainer {
+        padding-top: 48px;
+    }
+    #stack .sheet .sheetcontainer {
+        padding-top: 72px;
+    }
+
+    .kikbutton {
+        top: 70px;
+    }
+
+    #stack .savebutton {
+        top: 144px;
+    }
+    
+    #files #folders #folderslist {
+        padding-top: 48px;
+    }
+    #files #contents #contentslist {
+        padding-top: 48px;
+    }
+}
+
+/**************************************
+    REDUCE ALL HORIZONTAL PADDINGS
+***************************************/
+@media (max-width: 696px) {
+    #home #bigsearch {
+        padding: 48px;
+    }
+    #home #welcome {
+        padding: 48px;
+    }
+
+    #searchbar #searchcontainer {
+        padding-left: 48px;
+        padding-right: 48px;
+    }
+    #searchbar #filesbutton {
+        left: 48px;
+    }
+
+    #searchresults #resultcontainer {
+        padding-left: 48px;
+        padding-right: 48px;
+    }
+    
+    #files #folders #folderslist {
+        padding-left: 0px;
+    }
+    #files #contents {
+        padding-left: 48px;
+    }
+
+    #stack .sheet .sheetcontainer {
+        padding-left: 96px;
+        padding-right: 48px;
+    }
+
+    .kikbutton {
+        left: 42px;
+    }
+
+    #stack .savebutton {
+        left: 48px;
+    }
+}
