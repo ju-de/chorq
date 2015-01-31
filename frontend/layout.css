@@ -203,7 +203,11 @@
 .searchresult h2 a:active {
     color: #00DCFF;
 }
-#searchresults .kikbutton.hidden {
+.sorry {
+    padding: 144px 0px 144px 48px;
+    text-align: center;
+}
+.kikbutton.hidden {
     display: none;
 }
 
@@ -286,6 +290,25 @@
 }
 #files #contents #contentslist {
     padding: 72px 96px 96px 0px;
+}
+#newstack {
+    color: #C8CDD2;
+    font-size: 10px;
+    height: 48px;
+}
+#newstackinput {
+    margin: 0px 0px 12px 0px;
+    padding: 0px 0px 12px 0px;
+    background-color: transparent;
+    
+    font-size: 14px;
+    line-height: 24px;
+    border-bottom: 1px solid #C8CDD2;
+    color: #C8CDD2;
+}
+#newstackinput:focus {
+    color: #FFFFFF;
+    border-bottom: 1px solid #FFFFFF;
 }
 
 /********************************
