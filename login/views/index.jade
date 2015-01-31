@@ -1,16 +1,16 @@
 extends layout
 
 block content
-	form(method = "post")
+	form(name = "login", action = "/login", method = "post")#login-form
 		label Top Kik 
-			input(type = "text", name = "user")
+			input(type = "text", name = "user", id = 'user')
 		br
 		br
 
 		label Pass Kik 
-			input(type = "password", name = "pass")
+			input(type = "password", name = "pass", id = 'pass')
 		br
 		br
 
-		button(type = "submit")#login.btn
+		button(type = "submit")#submit.btn
 			| Log in
