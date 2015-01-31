@@ -1,5 +1,16 @@
 extends layout
 
 block content
-  h1= title
-  p Welcome to #{title}
+	form(method = "post")
+		label Top Kik 
+			input(type = "text", name = "user")
+		br
+		br
+
+		label Pass Kik 
+			input(type = "text", name = "pass")
+		br
+		br
+
+		button(type = "submit")
+			| Sign in
