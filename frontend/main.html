@@ -14,6 +14,7 @@
     <link rel="stylesheet" type="text/css" href="chords.css">
     <script src="http://cdn.kik.com/kik/1.0.9/kik.js"></script>
     <script type="text/javascript" src="zepto.min.js"></script>
+    <script type="text/javascript" src="tabs.js"></script>
     <script type="text/javascript" src="ui.js"></script>
 </head>
 <body>
@@ -28,12 +29,10 @@
         </form>
         <div id="welcome">
             <div class="guest">
-                <em>Welcome, <strong>guest</strong></em> <br />
-                <a href="javascript: showFiles();">log in with kik</a>
             </div>
             <div class="user">
-                <em>Welcome, <strong class="username">USER</strong></em> <br />
-                <a href="javscript: showFiles();">view collection</a>
+                <em>Welcome,<br />
+                <a href="javascript: showFiles();">view collection</a>
             </div>
         </div>
     </div>
@@ -54,20 +53,6 @@
     
     <div id="searchresults" class="hidden">
         <div id="resultcontainer">
-            <div id="theresults">
-            <div class="searchresult">
-                <h2><a href="javascript:showSheet(1,1);">Wonderwall <em>by Oasis</em></a></h2>
-                rating/source information
-            </div>
-            <div class="searchresult">
-                <h2><a href="javascript: search('');">Good Riddance/Time of Your Life <em>by Green Day</em></a></h2>
-                rating/source information
-            </div>
-            <div class="searchresult">
-                <h2><a href="javascript: search('');">Sandstorm <em>by Darude</em></a></h2>
-                rating/source information
-            </div>
-            </div>
         </div>
         <div id="searchkik" class="kikbutton hidden">
             <a href="javascript: share();"><img src="http://dev.kik.com/img/share-icons/Android_colour1.5x.png" alt="Kik!"></a>
@@ -77,22 +62,29 @@
     
     
     <div id="files" class="hidden">
-        <div id="folders" onclick="showFolders();">
-            <div id="folderslist">
-                <div id="folderthing">
-                </div>
-                <form id="newstack" class="folder" onsubmit="return newStack($('#newstackinput').val());">
-                    <input type="text" id="newstackinput" value="Create new stack" autocomplete="off" onfocus="onFocus($(this),'Create new stack');" onblur="onBlur($(this),'Create new stack');">
-                    press "enter" to create
-                </form>
-            </div>
-            
-            <div id="folderkik" class="kikbutton hidden">
-                <a href="javascript: share();"><img src="http://dev.kik.com/img/share-icons/Android_colour1.5x.png" alt="Kik!"></a>
+        <div id="nofiles" class="guest">
+            <div id="nofilesoops">
+                no kik doe ]:
             </div>
         </div>
-        <div id="contents" onclick="hideFolders();">
-            <div id="contentslist">
+        <div class="user">
+            <div id="folders" onclick="showFolders();">
+                <div id="folderslist">
+                    <div id="folderthing">
+                    </div>
+                    <form id="newstack" class="folder" onsubmit="return newStack($('#newstackinput').val());">
+                        <input type="text" id="newstackinput" value="Create new stack" autocomplete="off" onfocus="onFocus($(this),'Create new stack');" onblur="onBlur($(this),'Create new stack');">
+                        press "enter" to create
+                    </form>
+                </div>
+
+                <div id="folderkik" class="kikbutton hidden">
+                    <a href="javascript: share();"><img src="http://dev.kik.com/img/share-icons/Android_colour1.5x.png" alt="Kik!"></a>
+                </div>
+            </div>
+            <div id="contents" onclick="hideFolders();">
+                <div id="contentslist">
+                </div>
             </div>
         </div>
     </div>
@@ -125,7 +117,16 @@
     
     <script type="text/javascript">
         function init() {
-            buildStacks();
+            if(kik.enabled) kik.getAnonymousUser(function (token) {
+                $(".guest").each(function() {
+                    $(this).css('display','none');
+                });
+                $(".user").each(function() {
+                    $(this).css('display','block');
+                });
+                userToken = token;
+                buildStacks();
+            });
             var h = getHash();
             if(kik.message) h = kik.message.h;
             if(h != null) {

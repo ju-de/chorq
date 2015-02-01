@@ -12,6 +12,9 @@ var kikDescription = "Chord: the hippest new way to share chords !!";
 var kikUrl = "";
 var kikPic = "http://jamesy.us/porn/chorq/logo.png";
 
+
+var userToken = null;
+
 // IT IS A MYSTERY.
 var etphonehome = false;
 
@@ -27,7 +30,7 @@ function setTitle(subtitle) {
 }
 function share() {
     //alert('test');
-    kik.send({
+    if(kik.enabled) kik.send({
         title     : kikTitle                ,
         text      : kikDescription          ,
         pic       : kikPic                  , // optional
@@ -35,15 +38,7 @@ function share() {
         noForward : false                   , // optional
         data      : { h : curHash }         // optional
     });
-/*    kik.send({
-        title:      kikTitle,
-        text:       kikDescription,
-        url:        kikUrl,
-        pic:        kikpic,
-        data:       {
-            hash:   curHash
-        }
-    })*/
+    else showFiles();
 }
 
 function search(query) {
@@ -52,7 +47,6 @@ function search(query) {
         // GET INFO FROM AJAX AND STUFF
         
         // WOOP WOOP WOP.
-        var data = collection[sid];
         etphonehome = true;
         $("#searchkik").removeClass("hidden");
         resultsLoading();
@@ -74,7 +68,7 @@ function search(query) {
     
     *************************************/
         setBreadcrumb("loading...");
-        setTimeout(function() {returnSearchResults(data);}, 1000);
+        setTimeout(function() {returnSearchResults("");}, 1000);
         setHash("stack:"+sid);
         setTitle('Search results for "'+query+'"');
     } else if (query == "") {
@@ -105,7 +99,7 @@ function search(query) {
     
     
     *************************************/
-        setTimeout(function() {returnSearchResults(1);}, 1000);
+        setTimeout(function() {returnSearchResults(0);}, 1000);
         $("#home").addClass("hidden");
         setHash("search:"+query);
         setTitle('Search results for "'+query+'"');
@@ -126,24 +120,23 @@ function resultsLoading() {
 function returnSearchResults(data) {
     // RETURN SEARCH RESULTS
     
-    
-    
-    /***********************************
-    
-    
-    
-    
-    
-    
-    BLAAAAAAAh
-    
-    
-    
-    
-    
-    
-    
-    *************************************/
+    if(data == 0) {
+        data = {entries: []}
+        for(i=0;i<20;i++) {
+            j = Math.floor(Math.random() * tabs.length);
+            tabs[j]["id"]=j;
+            data.entries[i] = tabs[j];
+        }
+    } else {
+        var data = collection[0];
+    }
+    $("#resultcontainer").html("");
+    for(i in data.entries) {
+        entry = data.entries[i];
+        $("#resultcontainer").append('<div class="searchresult">'+
+                                     '<h2><a href="javascript: showSheet(\''+entry.id+'\',1)">'+entry.title+' <em>by '+entry.artist+'</em></a></h2>'+
+                                     '</div>');
+    }
     
     // REMOVE LOADING SCREEN
     etphonehome = false;
@@ -216,6 +209,7 @@ function toggleFiles() {
 }
 
 function showFiles() {
+    $("#home").addClass("hidden");
     $("#searchbar").removeClass("hidden");
     $("#files").removeClass("hidden");
     $("#filesbutton").addClass("active");
@@ -268,7 +262,8 @@ function returnSheet(id,data) {
     $("#stack").removeClass("hidden");
     sheetid = 1;
     etphonehome=false;
-    
+    data = tabs[id];
+    /*
     data = {
         title: "Wonderwall",
         artist: "Oasis",
@@ -289,7 +284,7 @@ function returnSheet(id,data) {
 "You're [[Em]]gonna be the one that [[C]]saves me[[Em]] [[G]]\n"+
 "And [[Em]]after [[C]]all [[Em]] [[G]]\n"+
 "You're my [[Em]]wonder[[C]]wall[[Em]][[G]][[Em]][[Am]][[Am]]"
-    }
+    }*/
     
     $("#sheet"+sheetid+"-title").html(data.title+" <em>by "+data.artist+"</em>");
     $("#sheet"+sheetid+"-lyrics").html(parseLyrics(data.content));
@@ -321,50 +316,65 @@ function parseLyrics(lyrics) {
     COLLECTION HANDLING
 *****************************/
 
-var collection = {
-    "104184": {
+var collection = [
+    {
+        "id":"104184",
         "title":"Greatest Hits",
-        "112351235":{
-            "title":"Wonderwall",
-            "artist":"Oasis"
+        "entries":[
+        {
+            "id":"0",
+            "title": tabs[0].title,
+            "artist":tabs[0].artist
         },
-        "253215532":{
-            "title":"Boulevard of Broken Dreams",
-            "artist":"Green Day"
+        {
+            "id":"3",
+            "title": tabs[3].title,
+            "artist":tabs[3].artist
         },
-        "353152353":{
-            "title":"Sandstorm",
-            "artist":"Darude"
+        {
+            "id":"1",
+            "title": tabs[1].title,
+            "artist":tabs[1].artist
         },
-        "1123511234":{
-            "title":"Wonderwall",
-            "artist":"Oasis"
+        {
+            "id":"5",
+            "title": tabs[5].title,
+            "artist":tabs[5].artist
         },
-        "253211234":{
-            "title":"Boulevard of Broken Dreams",
-            "artist":"Green Day"
+        {
+            "id":"2",
+            "title": tabs[2].title,
+            "artist":tabs[2].artist
         },
-        "353643266":{
-            "title":"Sandstorm",
-            "artist":"Darude"
+        {
+            "id":"4",
+            "title": tabs[4].title,
+            "artist":tabs[4].artist
         }
+        ]
     },
-    "213512": {
+    {
+        "id":"213512",
         "title":"UW Music Club",
-        "151235":{
+        "entries":[
+        {
+            "id":"2",
             "title":"Wonderwall",
             "artist":"Oasis"
         },
-        "2532":{
+        {
+            "id":"4",
             "title":"Boulevard of Broken Dreams",
             "artist":"Green Day"
         },
-        "35353":{
+        {
+            "id":"1",
             "title":"Sandstorm",
             "artist":"Darude"
         }
+        ]
     }
-};
+];
 
 var sheetId = 0;
 var sheetTitle = "";
@@ -384,12 +394,12 @@ var listeningToAddArtist = "";
 
 function showStack(id) {
     $("#contentslist").html("");
-    if(listeningToAdd > 0)
+    if(listeningToAdd != 0)
         $("#loading").removeClass("hidden");
     
     for(i in collection) {
         if(i == id) {
-            if(listeningToAdd > 0) {
+            if(listeningToAdd != 0) {
                 // AJAX STUFF GOES HERE
                 
                 
@@ -408,8 +418,8 @@ function showStack(id) {
                 /// RAWR
             } else fillContentThing(id);
             
-            setHash("stack:"+id);
-            setTitle(collection[i].title);
+            setHash("stack:"+collection[id].id);
+            setTitle(collection[id].title);
             activateFolder(id);
         } else {
             $("#folder-"+i).removeClass("active");
@@ -418,33 +428,33 @@ function showStack(id) {
     hideFolders();
 }
 
-function doneAdding(id,data) {
-    if(listeningToAdd > 0)
-    collection[id][listeningToAdd] = {
-        "title": listeningToAddTitle,
-        "artist": listeningToAddArtist
-    };
+function doneAdding(i,data) {
+    if(listeningToAdd != 0)
+        collection[i].entries.push({
+            "id": listeningToAdd,
+            "title": listeningToAddTitle,
+            "artist": listeningToAddArtist
+        });
     listeningToAdd = 0;
     buildStacks();
-    activateFolder(id);
+    activateFolder(i);
     $("#loading").addClass("hidden");
-    fillContentThing(id);
+    fillContentThing(i);
 }
 
-function activateFolder(id) {
-    $("#folder-"+id).addClass("active");
-    $("#folderkik").css('top', ($("#folder-"+id).offset().top+12)+'px');
+function activateFolder(i) {
+    $("#folder-"+i).addClass("active");
+    $("#folderkik").css('top', ($("#folder-"+i).offset().top+12)+'px');
     $("#folderkik").removeClass("hidden");
 }
 
 function fillContentThing(id) {
+    $("#contentslist").html("");
     var count = 0;
-    for(j in collection[id]) {
-        sheet = collection[id][j];
-        if(j != "title") {
-            $("#contentslist").append('<div class="searchresult"><h2><a href="javascript: showSheet(\''+j+'\',1);">'+sheet.title+' <em>by '+sheet.artist+'</em></a></h2></div>');
-            count++;
-        }
+    for(j in collection[id].entries) {
+        sheet = collection[id].entries[j];
+        $("#contentslist").append('<div class="searchresult"><h2><a href="javascript: showSheet(\''+sheet.id+'\',1);">'+sheet.title+' <em>by '+sheet.artist+'</em></a></h2></div>');
+        count++;
     }
     listeningToAdd = 0;
     if(count == 0)
@@ -463,10 +473,12 @@ function buildStacks() {
 
 function newStack(name) {
     id = Math.floor(Math.random()*999)+10;
-    collection[id] = {
-        "title":name
-    };
-    //showStack(id);
+    collection.push({
+        "id":id,
+        "title":name,
+        "entries":[]
+    });
+    i=collection.length-1;
     
     
     
@@ -474,7 +486,7 @@ function newStack(name) {
     
     
     $("#loading").removeClass("hidden");
-    setTimeout(function(){doneAdding(id,"");},1000);
+    setTimeout(function(){doneAdding(i,"");},1000);
     
     
     
