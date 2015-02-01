@@ -2,6 +2,6 @@ extends layout
 
 block content
     h1	Song List
-    u1
-    	each val in songlist
-    		li = val.sheetTitle
+    ul
+        each song in songlist
+            p - #{song.sheetTitle}, by #{song.sheetArtist}
