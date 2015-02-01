@@ -12,6 +12,9 @@ var kikDescription = "Chord: the hippest new way to share chords !!";
 var kikUrl = "";
 var kikPic = "http://jamesy.us/porn/chorq/logo.png";
 
+// IT IS A MYSTERY.
+var etphonehome = false;
+
 function setTitle(subtitle) {
     description = subtitle;
     if(description == "")
@@ -50,10 +53,28 @@ function search(query) {
         
         // WOOP WOOP WOP.
         var data = collection[sid];
-        setBreadcrumb(data.title);
+        etphonehome = true;
         $("#searchkik").removeClass("hidden");
-        $("#searchbar").removeClass("hidden");
-        $("#searchresults").removeClass("hidden");
+        resultsLoading();
+    
+    /***********************************
+    
+    
+    
+    
+    
+    
+    BLAAAAAAAh
+    
+    
+    
+    
+    
+    
+    
+    *************************************/
+        setBreadcrumb("loading...");
+        setTimeout(function() {returnSearchResults(data);}, 1000);
         setHash("stack:"+sid);
         setTitle('Search results for "'+query+'"');
     } else if (query == "") {
@@ -62,12 +83,29 @@ function search(query) {
         $("#searchresults").addClass("hidden");
         $("#home").removeClass("hidden");
         setHash("home");
-        setTitle('');
     } else {
         setBreadcrumb(query);
+        etphonehome = true;
         $("#searchkik").addClass("hidden");
-        $("#searchbar").removeClass("hidden");
-        $("#searchresults").removeClass("hidden");
+        resultsLoading();
+    
+    /***********************************
+    
+    
+    
+    
+    
+    
+    BLAAAAAAAh
+    
+    
+    
+    
+    
+    
+    
+    *************************************/
+        setTimeout(function() {returnSearchResults(1);}, 1000);
         $("#home").addClass("hidden");
         setHash("search:"+query);
         setTitle('Search results for "'+query+'"');
@@ -77,6 +115,46 @@ function search(query) {
     $("#searchinput").blur();
     $("#bigsearchbar").blur();
     return false;
+}
+
+function resultsLoading() {
+    $("#searchbar").removeClass("hidden");
+    $("#searchresults").addClass("hidden");
+    $("#loading").removeClass("hidden");
+}
+
+function returnSearchResults(data) {
+    // RETURN SEARCH RESULTS
+    
+    
+    
+    /***********************************
+    
+    
+    
+    
+    
+    
+    BLAAAAAAAh
+    
+    
+    
+    
+    
+    
+    
+    *************************************/
+    
+    // REMOVE LOADING SCREEN
+    etphonehome = false;
+    $("#loading").addClass("hidden");
+    $("#searchresults").removeClass("hidden");
+    
+    // FAT $TACK$
+    if(data.title != null) {
+        setBreadcrumb(data.title);
+        setTitle(data.title);
+    }
 }
 
 function setBreadcrumb(bc) {
@@ -147,14 +225,10 @@ function hideFiles() {
     $("#files").addClass("hidden");
     $("#filesbutton").removeClass("active");
     // RETURN HOME
-    if($("#stack").hasClass("hidden") && $("#searchresults").hasClass("hidden")) {
+    if($("#stack").hasClass("hidden") && $("#searchresults").hasClass("hidden") && !etphonehome) {
         $("#searchbar").addClass("hidden");
         $("#home").removeClass("hidden");
-<<<<<<< HEAD
-        window.location.hash="#!/home";
-=======
         setHash("home");
->>>>>>> bruh
         setTitle("");
     }
 }
@@ -178,12 +252,22 @@ function showFolders() {
 function showSheet(id,sheetid) {
     $("#searchresults").addClass("hidden");
     $("#searchbar").removeClass("hidden");
-    $("#stack").removeClass("hidden");
+    $("#stack").addClass("hidden");
+    etphonehome = true;
     hideFiles();
     // LOADING SCREEN
+    $("#loading").removeClass("hidden");
     
     // END LOADING SCREEN
     // LOAD THAT FUCKER UP
+    setTimeout(function() {returnSheet(id,"")},1000);
+}
+
+function returnSheet(id,data) {
+    $("#loading").addClass("hidden");
+    $("#stack").removeClass("hidden");
+    sheetid = 1;
+    etphonehome=false;
     
     data = {
         title: "Wonderwall",
@@ -207,31 +291,6 @@ function showSheet(id,sheetid) {
 "You're my [[Em]]wonder[[C]]wall[[Em]][[G]][[Em]][[Am]][[Am]]"
     }
     
-    /*data={
-        title: "Let Her Go",
-        artist: "Passenger",
-        content: "Well you only need the [[F]]light when it s burning [[C]]low\n"+
-"Only miss the [[G]]sun when it s starts to [[Am]]snow\n"+
-"Only know your [[F]]love her when you let her go[[C]][[G]]\n"+
-"Only know you ve been [[F]]high when you re feeling [[C]]low\n"+
-"Only hate the [[G]]road when you re missin  [[Am]]home\n"+
-"Only know your [[F]]love her when you ve let h[[C]]er go\n"+
-"[[G]]  And you let her go\n"+
-"\n"+
-"\n"+
-"\n"+
-"Am   F   G   Em\n"+
-"\n"+
-"[[Am]][[F]][[G]]\n"+
-"\n"+
-"\n"+
-"[[Am]]Staring at the bottom of your[[F]] glass\n"+
-"Hoping o[[G]]ne day you will make a dream [[Em]]last\n"+
-"The dreams come[[Am]] slow and goes s[[F]]o fast[[G]]\n"+
-"You [[Am]]see her when you close your[[F]] eyes\n"+
-"Maybe [[G]]one day you will understand [[Em]]why\n"+
-"Everything you [[Am]]touch surely[[F]] dies[[G]]\n"}*/
-    
     $("#sheet"+sheetid+"-title").html(data.title+" <em>by "+data.artist+"</em>");
     $("#sheet"+sheetid+"-lyrics").html(parseLyrics(data.content));
     
@@ -242,7 +301,6 @@ function showSheet(id,sheetid) {
     sheetId = id;
     sheetTitle = data.title;
     sheetArtist = data.artist;
-    
 }
 
 function parseChord(match, p1, offset, string) {
@@ -326,43 +384,71 @@ var listeningToAddArtist = "";
 
 function showStack(id) {
     $("#contentslist").html("");
+    if(listeningToAdd > 0)
+        $("#loading").removeClass("hidden");
+    
     for(i in collection) {
         if(i == id) {
             if(listeningToAdd > 0) {
                 // AJAX STUFF GOES HERE
-                collection[i][listeningToAdd] = {
-                    "title": listeningToAddTitle,
-                    "artist": listeningToAddArtist
-                };
-            }
-            $("#folder-"+i).addClass("active");
-            var count = 0;
-            for(j in collection[id]) {
-                sheet = collection[id][j];
-                if(j != "title") {
-<<<<<<< HEAD
-                    $("#contentslist").append('<div class="searchresult"><h2><a href="javascript: showSheet('+j+',1);">'+sheet.title+' <em>by '+sheet.artist+'</em></a></h2></div>');
-=======
-                    $("#contentslist").append('<div class="searchresult"><h2><a href="javascript: showSheet(\''+j+'\',1);">'+sheet.title+' <em>by '+sheet.artist+'</em></a></h2></div>');
->>>>>>> bruh
-                    count++;
-                }
-            }
-            if(count == 0)
-                $("#contentslist").append('<div class="sorry"><h2>Oops!</h2>no results found</div>');
-<<<<<<< HEAD
-            window.location.hash="#!/stack:"+id;
-=======
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                setTimeout(function() {doneAdding(id,"1")},3000);
+                
+                /// RAWR
+            } else fillContentThing(id);
+            
             setHash("stack:"+id);
->>>>>>> bruh
             setTitle(collection[i].title);
-            $("#folderkik").css('top', ($("#folder-"+id).offset().top+12)+'px');
-            $("#folderkik").removeClass("hidden");
+            activateFolder(id);
         } else {
             $("#folder-"+i).removeClass("active");
         }
     }
     hideFolders();
+}
+
+function doneAdding(id,data) {
+    if(listeningToAdd > 0)
+    collection[id][listeningToAdd] = {
+        "title": listeningToAddTitle,
+        "artist": listeningToAddArtist
+    };
+    listeningToAdd = 0;
+    buildStacks();
+    activateFolder(id);
+    $("#loading").addClass("hidden");
+    fillContentThing(id);
+}
+
+function activateFolder(id) {
+    $("#folder-"+id).addClass("active");
+    $("#folderkik").css('top', ($("#folder-"+id).offset().top+12)+'px');
+    $("#folderkik").removeClass("hidden");
+}
+
+function fillContentThing(id) {
+    var count = 0;
+    for(j in collection[id]) {
+        sheet = collection[id][j];
+        if(j != "title") {
+            $("#contentslist").append('<div class="searchresult"><h2><a href="javascript: showSheet(\''+j+'\',1);">'+sheet.title+' <em>by '+sheet.artist+'</em></a></h2></div>');
+            count++;
+        }
+    }
+    listeningToAdd = 0;
+    if(count == 0)
+        $("#contentslist").append('<div class="sorry"><h2>Oops!</h2>no results found</div>');
 }
 
 function buildStacks() {
@@ -380,8 +466,21 @@ function newStack(name) {
     collection[id] = {
         "title":name
     };
-    buildStacks();
-    showStack(id);
+    //showStack(id);
+    
+    
+    
+    
+    
+    
+    $("#loading").removeClass("hidden");
+    setTimeout(function(){doneAdding(id,"");},1000);
+    
+    
+    
+    
+    
+    
     $("#newstackinput").blur();
     return false;
 }
