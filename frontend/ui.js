@@ -206,7 +206,7 @@ function showFolders() {
 
 
 
-function showSheet(id,sheetid) {
+function showSheet(i,sheetid) {
     $("#searchresults").addClass("hidden");
     $("#searchbar").removeClass("hidden");
     $("#stack").addClass("hidden");
@@ -217,7 +217,7 @@ function showSheet(id,sheetid) {
     
     // END LOADING SCREEN
     // LOAD THAT FUCKER UP
-    $.getJSON('/chorq/get/sheet.php?id='+id,returnSheet);
+    $.getJSON('/chorq/get/sheet.php?sheet='+i,returnSheet);
 }
 
 function returnSheet(data) {

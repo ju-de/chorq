@@ -5,7 +5,7 @@ if ($mysqli->connect_errno) {
     echo "Failed to connect to MySQL: (" . $mysqli->connect_errno . ") " . $mysqli->connect_error;
 }
 
-if($_GET['token'])
+if(array_key_exists('token', $_GET))
 	$token = $mysqli->real_escape_string($_GET['token']);
 
 $stackTemplate = array(

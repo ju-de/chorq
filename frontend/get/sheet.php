@@ -1,6 +1,6 @@
 <?PHP
 	require_once("../structures.php");
-	$id = $mysqli->real_escape_string($_GET["id"]);
+	$id = $mysqli->real_escape_string($_GET["sheet"]);
 
 	$q = $mysqli->query("SELECT * FROM sheets WHERE id='$id' ORDER BY id ASC");
 

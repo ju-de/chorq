@@ -12,7 +12,7 @@
 		$r = $mysqli->query("SELECT * FROM entries WHERE stack='$row[id]' ORDER BY id ASC");
 		while($e = $r->fetch_assoc()) {
 			$entry = $entryTemplate;
-			$entry["id"] = $e["id"];
+			$entry["id"] = $e["sheet"];
 			$entry["title"] = $e["title"];
 			$entry["artist"] = $e["artist"];
 			$ins["entries"][] = $entry;
