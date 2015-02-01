@@ -17,13 +17,15 @@ router.post('/addsong', function(req, res){
 	//get form values
 	var title = req.body.sheetTitle;
 	var artist = req.body.sheetArtist;
+	var tab = req.body.sheetContent;
 
 	var collection = db.get('usercollection');
 
 	//insert into db
 	collection.insert({
 		"sheetTitle": title,
-		"sheetArtist": artist
+		"sheetArtist": artist,
+		"sheetContent": tab
 	}, function(err, doc){
 		if(err){
 			res.send("Good job. You fucked up somehow.");
