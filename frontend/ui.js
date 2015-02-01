@@ -425,7 +425,6 @@ function showStack(id) {
             $("#folder-"+i).removeClass("active");
         }
     }
-    hideFolders();
 }
 
 function doneAdding(i,data) {
@@ -446,6 +445,7 @@ function activateFolder(i) {
     $("#folder-"+i).addClass("active");
     $("#folderkik").css('top', ($("#folder-"+i).offset().top+12)+'px');
     $("#folderkik").removeClass("hidden");
+    hideFolders();
 }
 
 function fillContentThing(id) {
