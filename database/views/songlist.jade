@@ -5,3 +5,4 @@ block content
     ul
         each song in songlist
             p - #{song.sheetTitle}, by #{song.sheetArtist}
+            p= JSON.stringify(song)
