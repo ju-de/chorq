@@ -1,16 +1,11 @@
 extends layout
 
 block content
-	form(name = "login", action = "/login", method = "post")#login-form
-		label Top Kik 
-			input(type = "text", name = "user", id = 'user')
-		br
-		br
-
-		label Pass Kik 
-			input(type = "password", name = "pass", id = 'pass')
-		br
-		br
-
-		button(type = "submit")#submit.btn
-			| Log in
+    h1	Insert Song
+    form#formAddUser(name="addsong",method="post",action="/addsong")
+        input#inputSongTitle(type="text", placeholder="song", name="sheetTitle")
+        br
+        input#inputSongArtist(type="text", placeholder="artist", name="sheetArtist")
+        br
+        br
+        button#btnSubmit(type="submit") submit
