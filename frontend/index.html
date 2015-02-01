@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1, maximum-scale=1">
+    <title>Chorq</title>
+    <meta name="description" content="The hippest new chord sharing site on the block !!">
+    <link rel="kik-icon" href="logo.png">
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="/favicon.ico" type="image/x-icon">
+    <link href='http://fonts.googleapis.com/css?family=Roboto:400,500,700,700italic' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <link rel="stylesheet" type="text/css" href="layout.css">
+    <link rel="stylesheet" type="text/css" href="chords.css">
+    <script src="http://cdn.kik.com/kik/1.0.9/kik.js"></script>
+    <script type="text/javascript" src="zepto.min.js"></script>
+    <script type="text/javascript" src="ui.js"></script>
+</head>
+<body>
+    
+    
+    <div id="home" class="hidden">
+        <form id="bigsearch" onsubmit="return search($('#bigsearchbar').val());">
+            <input id="bigsearchbar" type="text" value="Search for a song..." autocomplete="off" onfocus="onFocus($(this),'Search for a song...');" onblur="onBlur($(this),'Search for a song...');">
+            <div id="bigsearchstatus">
+                press "enter" to search
+            </div>
+        </form>
+        <div id="welcome">
+            <div class="guest">
+            </div>
+            <div class="user">
+                <em>Welcome,<br />
+                <a href="javascript: showFiles();">view collection</a>
+            </div>
+        </div>
+    </div>
+    
+    
+    <div id="searchbar" class="hidden">
+        <form onsubmit="return search($('#searchinput').val());" id="searchcontainer">
+            <div id="filesbutton" onclick="toggleFiles();">
+                <div id="filesshape1"></div>
+                <div id="filesshape2"></div>
+                <div id="filesshape3"></div>
+            </div>
+            <input id="searchinput" type="text" value="Search for a song..." autocomplete="off" onfocus="searchFocus();" onblur="searchBlur();">
+        </form>
+    </div>
+    
+    
+    
+    <div id="searchresults" class="hidden">
+        <div id="resultcontainer">
+        </div>
+        <div id="searchkik" class="kikbutton hidden">
+            <a href="javascript: share();"><img src="http://dev.kik.com/img/share-icons/Android_colour1.5x.png" alt="Kik!"></a>
+        </div>
+    </div>
+    
+    
+    
+    <div id="files" class="hidden">
+        <div id="nofiles" class="guest">
+            <div id="nofilesoops">
+                no kik doe ]:
+            </div>
+        </div>
+        <div class="user">
+            <div id="folders" onclick="showFolders();">
+                <div id="folderslist">
+                    <div id="folderthing">
+                    </div>
+                    <form id="newstack" class="folder" onsubmit="return newStack($('#newstackinput').val());">
+                        <input type="text" id="newstackinput" value="Create new stack" autocomplete="off" onfocus="onFocus($(this),'Create new stack');" onblur="onBlur($(this),'Create new stack');">
+                        press "enter" to create
+                    </form>
+                </div>
+
+                <div id="folderkik" class="kikbutton hidden">
+                    <a href="javascript: share();"><img src="http://dev.kik.com/img/share-icons/Android_colour1.5x.png" alt="Kik!"></a>
+                </div>
+            </div>
+            <div id="contents" onclick="hideFolders();">
+                <div id="contentslist">
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    
+    <div id="stack" class="hidden">
+        <div class="sheet">
+            <div id="sheet1" class="sheetcontainer">
+                <h2 id="sheet1-title"></h2>
+                <div class="lyrics" id="sheet1-lyrics">
+                </div>
+            </div>
+        </div>
+        <div class="kikbutton">
+            <a href="javascript: share();"><img src="http://dev.kik.com/img/share-icons/Android_colour1.5x.png" alt="Kik!"></a>
+        </div>
+        <div class="savebutton" onclick="addSheet();">
+            <div id="saveshape1"></div>
+            <div id="saveshape2"></div>
+            <div id="saveshape3"></div>
+            <div id="saveshape4"></div>
+        </div>
+    </div>
+    
+    
+    <div id="loading" class="hidden">
+        <div class="loadingicon">loading...</div>
+    </div>
+    
+    
+    <script type="text/javascript">
+        function init() {
+            if(kik.enabled) kik.getAnonymousUser(function (token) {
+                $(".guest").each(function() {
+                    $(this).css('display','none');
+                });
+                $(".user").each(function() {
+                    $(this).css('display','block');
+                });
+                userToken = token;
+                initStacks();
+            });
+            var h = getHash();
+            if(kik.message) h = kik.message.h;
+            if(h != null) {
+                hs = h.split(":");
+                if(hs[0] == "sheet")
+                    showSheet(hs[1],1);
+                else if(hs[0] == "stack")
+                    search("stack:"+hs[1]);
+                else if(hs[0] == "search")
+                    search(hs[1]);
+                else search("");
+            } else search("");
+        }
+        kik.ready(init);
+        //if(!kik.enabled) init();
+    </script>
+</body>
+</html>
