@@ -6,18 +6,9 @@ router.get('/', function(req, res, next) {
   res.render('index', { title: 'Chorq' });
 });
 
+//insert song form
 router.get('/addsong', function(req, res) {
     res.render('addsong', { title: 'Add Song' });
-});
-
-router.get('/songlist', function(req, res){
-	var db = req.db;
-	var collection = db.get('usercollection');
-	collection.find({}, {}, function(e, docs){
-		res.render('songlist',{
-			"songlist" :docs
-		});
-	});
 });
 
 router.post('/addsong', function(req, res){
@@ -40,6 +31,17 @@ router.post('/addsong', function(req, res){
 			res.location("songlist");
 			res.redirect("songlist");
 		}
+	});
+});
+
+//display all songs in database +++++++++ 
+router.get('/songlist', function(req, res){
+	var db = req.db;
+	var collection = db.get('usercollection');
+	collection.find({}, {}, function(e, docs){
+		res.render('songlist',{
+			"songlist": docs
+		});
 	});
 });
 
