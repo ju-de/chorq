@@ -6,6 +6,12 @@ var breadcrumb = "Search for a song...";
 var description = "";
 var url = "http://jamesy.us/porn/chorq/main.html";
 
+
+var kikTitle = "";
+var kikDescription = "Chord: the hippest new way to share chords !!";
+var kikUrl = "";
+var kikPic = "http://jamesy.us/porn/chorq/logo.png";
+
 function setTitle(subtitle) {
     description = subtitle;
     if(description == "")
@@ -13,28 +19,57 @@ function setTitle(subtitle) {
     else
         document.title = "Chorq | "+description;
     // SET BUTTONS
-    $(".kik-button").each(function(index) {
-        $(this).data("title",((description=="")?"Chorq":description));
-        $(this).data("description","Chorq: the hippest new way to share chords !!");
-        $(this).data("url",url+window.location.hash); 
-        $(this).data("pic","http://jamesy.us/porn/chorq/logo.png"); 
+    kikTitle=((description=="")?"Chorq":description);
+    kikUrl=getBase()+"#!/"+curHash;
+}
+function share() {
+    //alert('test');
+    kik.send({
+        title     : kikTitle                ,
+        text      : kikDescription          ,
+        pic       : kikPic                  , // optional
+        big       : false                   , // optional
+        noForward : false                   , // optional
+        data      : { h : curHash }         // optional
     });
+/*    kik.send({
+        title:      kikTitle,
+        text:       kikDescription,
+        url:        kikUrl,
+        pic:        kikpic,
+        data:       {
+            hash:   curHash
+        }
+    })*/
 }
 
 function search(query) {
-    if(query == "") {
+    if (query.substring(0,6) == "stack:") {
+        var sid = query.substring(6);
+        // GET INFO FROM AJAX AND STUFF
+        
+        // WOOP WOOP WOP.
+        var data = collection[sid];
+        setBreadcrumb(data.title);
+        $("#searchkik").removeClass("hidden");
+        $("#searchbar").removeClass("hidden");
+        $("#searchresults").removeClass("hidden");
+        setHash("stack:"+sid);
+        setTitle('Search results for "'+query+'"');
+    } else if (query == "") {
         setBreadcrumb("Search for a song...");
         $("#searchbar").addClass("hidden");
         $("#searchresults").addClass("hidden");
         $("#home").removeClass("hidden");
-        window.location.hash="#!/home";
+        setHash("home");
         setTitle('');
     } else {
         setBreadcrumb(query);
+        $("#searchkik").addClass("hidden");
         $("#searchbar").removeClass("hidden");
         $("#searchresults").removeClass("hidden");
         $("#home").addClass("hidden");
-        window.location.hash="#!/search:"+query;
+        setHash("search:"+query);
         setTitle('Search results for "'+query+'"');
     }
     hideFiles();
@@ -47,6 +82,24 @@ function search(query) {
 function setBreadcrumb(bc) {
     breadcrumb = bc;
     $("#searchinput").val(breadcrumb);
+}
+
+function getHash() {
+    return window.location.href.split("#!/")[1];
+}
+
+function getBase() {
+    var b;
+    if((b = window.location.href.split("#!/")[0]) != null)
+        return b;
+    else return window.location.href;
+}
+
+var curHash;
+
+function setHash(hash) {
+    curHash = hash;
+    window.location.href = getBase()+"#!/"+hash;
 }
 
 function searchFocus() {
@@ -97,7 +150,11 @@ function hideFiles() {
     if($("#stack").hasClass("hidden") && $("#searchresults").hasClass("hidden")) {
         $("#searchbar").addClass("hidden");
         $("#home").removeClass("hidden");
+<<<<<<< HEAD
         window.location.hash="#!/home";
+=======
+        setHash("home");
+>>>>>>> bruh
         setTitle("");
     }
 }
@@ -127,6 +184,7 @@ function showSheet(id,sheetid) {
     
     // END LOADING SCREEN
     // LOAD THAT FUCKER UP
+    
     data = {
         title: "Wonderwall",
         artist: "Oasis",
@@ -148,11 +206,37 @@ function showSheet(id,sheetid) {
 "And [[Em]]after [[C]]all [[Em]] [[G]]\n"+
 "You're my [[Em]]wonder[[C]]wall[[Em]][[G]][[Em]][[Am]][[Am]]"
     }
+    
+    /*data={
+        title: "Let Her Go",
+        artist: "Passenger",
+        content: "Well you only need the [[F]]light when it s burning [[C]]low\n"+
+"Only miss the [[G]]sun when it s starts to [[Am]]snow\n"+
+"Only know your [[F]]love her when you let her go[[C]][[G]]\n"+
+"Only know you ve been [[F]]high when you re feeling [[C]]low\n"+
+"Only hate the [[G]]road when you re missin  [[Am]]home\n"+
+"Only know your [[F]]love her when you ve let h[[C]]er go\n"+
+"[[G]]  And you let her go\n"+
+"\n"+
+"\n"+
+"\n"+
+"Am   F   G   Em\n"+
+"\n"+
+"[[Am]][[F]][[G]]\n"+
+"\n"+
+"\n"+
+"[[Am]]Staring at the bottom of your[[F]] glass\n"+
+"Hoping o[[G]]ne day you will make a dream [[Em]]last\n"+
+"The dreams come[[Am]] slow and goes s[[F]]o fast[[G]]\n"+
+"You [[Am]]see her when you close your[[F]] eyes\n"+
+"Maybe [[G]]one day you will understand [[Em]]why\n"+
+"Everything you [[Am]]touch surely[[F]] dies[[G]]\n"}*/
+    
     $("#sheet"+sheetid+"-title").html(data.title+" <em>by "+data.artist+"</em>");
     $("#sheet"+sheetid+"-lyrics").html(parseLyrics(data.content));
     
     // SET URL AND LINKS AND STUFF
-    window.location.hash="#!/sheet:"+id;
+    setHash("sheet:"+id);
     setTitle(data.title+' by '+data.artist);
     
     sheetId = id;
@@ -256,13 +340,21 @@ function showStack(id) {
             for(j in collection[id]) {
                 sheet = collection[id][j];
                 if(j != "title") {
+<<<<<<< HEAD
                     $("#contentslist").append('<div class="searchresult"><h2><a href="javascript: showSheet('+j+',1);">'+sheet.title+' <em>by '+sheet.artist+'</em></a></h2></div>');
+=======
+                    $("#contentslist").append('<div class="searchresult"><h2><a href="javascript: showSheet(\''+j+'\',1);">'+sheet.title+' <em>by '+sheet.artist+'</em></a></h2></div>');
+>>>>>>> bruh
                     count++;
                 }
             }
             if(count == 0)
                 $("#contentslist").append('<div class="sorry"><h2>Oops!</h2>no results found</div>');
+<<<<<<< HEAD
             window.location.hash="#!/stack:"+id;
+=======
+            setHash("stack:"+id);
+>>>>>>> bruh
             setTitle(collection[i].title);
             $("#folderkik").css('top', ($("#folder-"+id).offset().top+12)+'px');
             $("#folderkik").removeClass("hidden");
